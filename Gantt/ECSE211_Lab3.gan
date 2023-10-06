@@ -105,7 +105,7 @@
         <task id="16" name="FinishDesignReport" color="#fc60a8" meeting="false" start="2023-10-18" duration="2" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
             <depend id="21" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="21" name="SubmitLabReport" color="#fc60a8" meeting="true" start="2023-10-20" duration="0" complete="0" thirdDate="2023-10-04" thirdDate-constraint="0" expand="true"/>
+        <task id="21" name="SubmittedLabReport" color="#fc60a8" meeting="true" start="2023-10-20" duration="0" complete="0" thirdDate="2023-10-04" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources/>
     <allocations/>
