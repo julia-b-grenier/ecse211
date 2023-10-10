@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2023-10-05" view-index="0" gantt-divider-location="423" resource-divider-location="300" version="3.2.3247" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2023-10-05" view-index="0" gantt-divider-location="408" resource-divider-location="300" version="3.2.3247" locale="en_US">
     <description/>
     <view zooming-state="default:0" id="gantt-chart">
-        <field id="tpd3" name="Name" width="241" order="0"/>
-        <field id="tpd4" name="Begin date" width="90" order="1"/>
-        <field id="tpd5" name="End date" width="91" order="2"/>
+        <field id="tpd3" name="Name" width="223" order="0"/>
+        <field id="tpd4" name="Begin date" width="84" order="1"/>
+        <field id="tpd5" name="End date" width="85" order="2"/>
         <option id="filter.completedTasks" value="false"/>
         <timeline>
             <![CDATA[9]]>
@@ -40,7 +40,7 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="3" name="PrepareForMidterm" color="#f4d35e" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2023-10-13" duration="4" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true"/>
+        <task id="3" name="PrepareForMidterm" color="#f4d35e" shape="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0" meeting="false" start="2023-10-11" duration="4" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true"/>
         <task id="18" name="DevelopDrummingMecanism" color="#087e8b" meeting="false" start="2023-10-11" duration="4" complete="0" thirdDate="2023-10-11" thirdDate-constraint="0" expand="true">
             <depend id="15" type="2" difference="0" hardness="Strong"/>
             <task id="0" name="CodeRotationArms" color="#087e8b" meeting="false" start="2023-10-11" duration="2" complete="0" thirdDate="2023-10-03" thirdDate-constraint="0" expand="true">
