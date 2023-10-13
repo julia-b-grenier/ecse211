@@ -20,7 +20,7 @@ DELAY_TIME = 1
 
 wait_ready_sensors() # Note: Touch sensors actually have no initialization time
     
-def initilizeMotors():
+def initializeMotors():
     try:
         BRICKPI=brickpi3.BrickPi3()
         
@@ -60,7 +60,7 @@ def start_drumming_on_button_press():
 
 if __name__=='__main__':
     
-    initilizeMotors()
+    initializeMotors()
     # TODO Implement this function
     start_drumming_on_button_press()
 
