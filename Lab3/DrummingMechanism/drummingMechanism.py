@@ -21,6 +21,7 @@ DELAY_TIME = 1
 wait_ready_sensors() # Note: Touch sensors actually have no initialization time
     
 def initializeMotors():
+    "Initialized the motors"
     try:
         BRICKPI=brickpi3.BrickPi3()
         
@@ -35,14 +36,14 @@ def initializeMotors():
         print(error)
 
 def start_drumming_on_button_press():
-    "In an infinite loop, check when the touch sensor is pressed."
-    drumming_activated = False
+    "Start the drumming mechanism when the button is pressed and released"
     try:
         while not TOUCH_SENSOR.is_pressed() :
-            pass  # do nothing while waiting for first button press
+            pass  # do nothing while waiting for the first button press
         
         while TOUCH_SENSOR.is_pressed() :
-            pass  # do nothing while waiting for first button press
+            pass  # wait for the button to be released
+        
         time.sleep(1)
         print("Touch sensor pressed")
         while ( not TOUCH_SENSOR.is_pressed() ):
@@ -53,14 +54,12 @@ def start_drumming_on_button_press():
             BRICKPI.set_motor_position_relative(RIGHT_MOTOR, -ROTATION_DEGREE)
             time.sleep(DELAY_TIME)
                     
-    except BaseException as error:  # capture all exceptions including KeyboardInterrupt (Ctrl-C)
+    except BaseException as error:  # capture all exceptions
         print(error)
         exit()
 
 
 if __name__=='__main__':
-    
     initializeMotors()
-    # TODO Implement this function
     start_drumming_on_button_press()
 
