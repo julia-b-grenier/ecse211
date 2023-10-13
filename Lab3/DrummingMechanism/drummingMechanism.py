@@ -35,7 +35,7 @@ def initializeMotors():
     except IOError as error:
         print(error)
 
-def start_drumming_on_button_press():
+def start_drumming_on_button_released():
     "Start the drumming mechanism when the button is pressed and released"
     try:
         while not TOUCH_SENSOR.is_pressed() :
@@ -61,5 +61,5 @@ def start_drumming_on_button_press():
 
 if __name__=='__main__':
     initializeMotors()
-    start_drumming_on_button_press()
+    start_drumming_on_button_released()
 
