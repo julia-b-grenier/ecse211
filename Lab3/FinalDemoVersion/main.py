@@ -1,4 +1,4 @@
-import drummingMechanism, gyroTest
+import drummingMechanism, fluteMechanism
 
 from threading import Thread
 from utils import sound
@@ -18,7 +18,7 @@ def initializeSystem():
     
 def thread_sound():
     while IS_RUNNING:
-        gyroTest.executeSoundSystem(SOUND_BUTTON, GYRO_SENSOR)
+        fluteMechanism.executeSoundSystem(SOUND_BUTTON, GYRO_SENSOR)
         
 def thread_drumming():
     drumming_activated = False
