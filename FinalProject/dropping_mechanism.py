@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
-from utils import sound
 from utils.brick import Motor
 import time
 
-MOTOR = Motor('A')
-moving_flag = False
+
 color_array = ["purple", "blue", "green", "yellow", "orange", "red"]
 
 def executeSystem():
@@ -20,8 +18,11 @@ def executeSystem():
         moving_flag = False
     else:
         print("color not in the array")
+
+#Used for debugging purposes
 if __name__=='__main__':
     
+    MOTOR = Motor('A')
     MOTOR.reset_position()
     
     print("started")
