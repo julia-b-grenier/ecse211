@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from utils.brick import Motor, TouchSensor, EV3ColorSensor, wait_ready_sensors
-import path_finding
+import path_finding, mouvement_mechanism, dropping_mechanism
 import time
 
 #=-=-=-=-= Initialization of variables, motors and sensor =-=-=-=-=#
@@ -57,6 +57,17 @@ def inputCoordinate():
 
 
 #=-=-=-=-=-=-=-=-=-=-=-=-=-= Main =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
+
 coordinates_fire = inputCoordinate()
 print(coordinates_fire)
-print(path_finding.getInstructionList(coordinates_fire))
+instructionList = path_finding.getInstructionList(coordinates_fire)
+print(instructionList)
+for instruction in instructionList:
+    if instruction == "FWD":
+    elif instruction == "left":
+    elif instruction == "right":
+    elif instruction == "creepFWD":
+    elif instruction == "creepBWD":
+    elif instruction in color_array:
+    else:
+        print("INSTRUCTION NOT AN INSTRUCTION?")  
