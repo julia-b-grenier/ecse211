@@ -80,11 +80,8 @@ def goToFire(coordinatesArray, position, fireCoordinate):
 	global listOfInstruction
 	global fireMatrix
 
-	print(fireMatrix, localPosition[0], localPosition[1], fireCoordinate[0], fireCoordinate[1])
 	path = bfs(fireMatrix, localPosition[0], localPosition[1], fireCoordinate[0], fireCoordinate[1])
-	print(path)
 	path.pop(0)
-	print(path)
 
 	for coordinate in path:
 		if position != coordinate :
@@ -97,11 +94,19 @@ def goToFire(coordinatesArray, position, fireCoordinate):
 	listOfInstruction.append("creepFWD")
 	listOfInstruction.append(fireCoordinate[2])
 	listOfInstruction.append("creepBWD")
-	print(position)
 	return position
 
 def goToOrigin(coordinatesArray, position):
-	return
+	path = bfs(fireMatrix, localPosition[0], localPosition[1], 0, 0)
+	path.append((0,0))
+
+	for coordinate in path:
+		if position != coordinate :
+			rotateTowards(position, coordinate)
+			listOfInstruction.append("FWD")
+			position = coordinate
+
+	rotateTowards(position, [0,1])
 
 def ortDistance(coordinate1, coordinate2):
 	return abs(coordinate1[0] - coordinate2[0]) + abs(coordinate1[1] - coordinate2[1])
