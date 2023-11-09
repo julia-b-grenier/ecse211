@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from utils.brick import Motor, TouchSensor, EV3ColorSensor, wait_ready_sensors
+import path_finding
 import time
 
 #=-=-=-=-= Initialization of variables, motors and sensor =-=-=-=-=#
@@ -10,7 +11,7 @@ color_array = ["purple", "blue", "green", "yellow", "orange", "red"]
 RIGHT_MOVEMENT_MOTOR = Motor('A')
 LEFT_MOVEMENT_MOTOR = Motor('B')
 RACK_MOTOR = Motor('C')
-KICK_MOTOR = Morot('D')
+KICK_MOTOR = Motor('D')
 #Sensors
 EMERGENCY_TOUCH = TouchSensor(1)
 RIGHT_COLOR_SENSOR = EV3ColorSensor(2)
@@ -58,3 +59,4 @@ def inputCoordinate():
 #=-=-=-=-=-=-=-=-=-=-=-=-=-= Main =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 coordinates_fire = inputCoordinate()
 print(coordinates_fire)
+print(path_finding.getInstructionList(coordinates_fire))

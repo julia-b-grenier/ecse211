@@ -1,20 +1,25 @@
 import math
+from collections import deque
 
 #=-=-=-=-=-=- Initialization of variables -=-=-=-=-=-=#
 listOfInstruction = []
 localPosition = [0,0] #robots starts at 0,0
 localRotation = 0 #robot start at 0 looking toward 0,3
 fireLocations = []
+fireMatrix = []
 
 
 #=-=-=-=-=-=- Main path finding function -=-=-=-=-=-=#
 def getInstructionList(coordinatesArray):
+	global listOfInstruction
 	global fireLocations
 	global localPosition
+	global fireMatrix
 
 	#fireLocation is used to keep track which fire we took care of
 	#coordinatesArray is used to keep a list of all the fires
 	fireLocations = coordinatesArray[:]
+	fireMatrix = constructMatrix(coordinatesArray)
 	
 	while len(fireLocations) != 0:
 		closestFire = getClosestFire(fireLocations, localPosition)
@@ -22,9 +27,24 @@ def getInstructionList(coordinatesArray):
 		fireLocations.remove(closestFire) #keeping track which fires have been taken care of
 
 	goToOrigin(coordinatesArray, localPosition)
+
+	return listOfInstruction
 #=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 
 #=-=-=-=-=-=-=-=-= Helper functions =-=-=-=-=-=-=-=-=#
+def constructMatrix(coordinatesArray):
+	matrix = [
+		[0, 0, 0, 0],
+		[0, 0, 0, 0],
+		[0, 0, 0, 0],
+		[0, 0, 0, 0]
+	]
+
+	for fire in coordinatesArray:
+		matrix[fire[0]][fire[1]] = 1
+
+	return matrix
+
 def getClosestFire(coordinatesArray, position):
 	closestCoordinate = coordinatesArray[0]
 	for coordinate in coordinatesArray:
@@ -33,14 +53,45 @@ def getClosestFire(coordinatesArray, position):
 
 	return closestCoordinate
 
+def is_valid_move(x, y, visited):
+	global fireMatrix
+	return 0 <= x < 4 and 0 <= y < 4 and fireMatrix[x][y] == 0 and not visited
+
+def bfs(grid, start_x, start_y, target_x, target_y):
+	visited = [[False for _ in range(4)] for _ in range(4)]
+	queue = deque([(start_x, start_y, [])])  # (x, y, path)
+
+	while queue:
+		print(queue)
+		x, y, path = queue.popleft()
+		visited[y][x] = True
+
+		if x == target_x and y == target_y:
+			path.append((x, y))
+			return path
+
+		for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
+			new_x, new_y = x + dx, y + dy
+			if is_valid_move(new_x, new_y, visited):
+				new_path = path + [(x, y)]
+				queue.append((new_x, new_y, new_path))
+		print(queue)
+
+	return []  # Target is not reachable
+
 def goToFire(coordinatesArray, position, fireCoordinate):
 	global listOfInstruction
+	global fireMatrix
 
-	#while we are not one box away
-	while distance(fireCoordinate, position) > 1:
-		while position[1] 
+	path = bfs(fireMatrix, localPosition[0], localPosition[1], fireCoordinate[0], fireCoordinate[1])
+	print(path)
+	path.pop()
 
-
+	for coordinate in path:
+		rotateTowards(position, coordinate)
+		listOfInstruction.append("FWD")
+		position = coordinate
+	
 	#Instructions to rotate the robot towards the fire
 	rotateTowards(position, fireCoordinate)
 	#Instructions to put out the fire
@@ -51,7 +102,7 @@ def goToFire(coordinatesArray, position, fireCoordinate):
 	return position
 
 def goToOrigin(coordinatesArray, position):
-	
+	return
 
 def distance(coordinate1, coordinate2):
 	return abs(coordinate1[0] - coordinate1[0]) + abs(coordinate1[1] - coordinate1[1])
