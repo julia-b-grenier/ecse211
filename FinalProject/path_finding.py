@@ -48,34 +48,31 @@ def constructMatrix(coordinatesArray):
 def getClosestFire(coordinatesArray, position):
 	closestCoordinate = coordinatesArray[0]
 	for coordinate in coordinatesArray:
-		if distance(coordinate, position) < distance(closestCoordinate, position):
+		if ortDistance(coordinate, position) < ortDistance(closestCoordinate, position):
 			closestCoordinate = coordinate
 
 	return closestCoordinate
 
 def is_valid_move(x, y, visited):
 	global fireMatrix
-	return 0 <= x < 4 and 0 <= y < 4 and fireMatrix[x][y] == 0 and not visited
+	return 0 <= x < 4 and 0 <= y < 4 and fireMatrix[x][y] == 0 and not visited[x][y]
 
 def bfs(grid, start_x, start_y, target_x, target_y):
 	visited = [[False for _ in range(4)] for _ in range(4)]
 	queue = deque([(start_x, start_y, [])])  # (x, y, path)
 
 	while queue:
-		print(queue)
 		x, y, path = queue.popleft()
 		visited[y][x] = True
 
 		if x == target_x and y == target_y:
-			path.append((x, y))
 			return path
 
 		for dx, dy in [(1, 0), (-1, 0), (0, 1), (0, -1)]:
 			new_x, new_y = x + dx, y + dy
-			if is_valid_move(new_x, new_y, visited):
+			if is_valid_move(new_x, new_y, visited) or (new_x, new_y) == (target_x, target_y):
 				new_path = path + [(x, y)]
 				queue.append((new_x, new_y, new_path))
-		print(queue)
 
 	return []  # Target is not reachable
 
@@ -83,29 +80,31 @@ def goToFire(coordinatesArray, position, fireCoordinate):
 	global listOfInstruction
 	global fireMatrix
 
+	print(fireMatrix, localPosition[0], localPosition[1], fireCoordinate[0], fireCoordinate[1])
 	path = bfs(fireMatrix, localPosition[0], localPosition[1], fireCoordinate[0], fireCoordinate[1])
 	print(path)
-	path.pop()
+	path.pop(0)
+	print(path)
 
 	for coordinate in path:
-		rotateTowards(position, coordinate)
-		listOfInstruction.append("FWD")
-		position = coordinate
-	
-	#Instructions to rotate the robot towards the fire
+		if position != coordinate :
+			rotateTowards(position, coordinate)
+			listOfInstruction.append("FWD")
+			position = coordinate
+
 	rotateTowards(position, fireCoordinate)
 	#Instructions to put out the fire
 	listOfInstruction.append("creepFWD")
 	listOfInstruction.append(fireCoordinate[2])
 	listOfInstruction.append("creepBWD")
-
+	print(position)
 	return position
 
 def goToOrigin(coordinatesArray, position):
 	return
 
-def distance(coordinate1, coordinate2):
-	return abs(coordinate1[0] - coordinate1[0]) + abs(coordinate1[1] - coordinate1[1])
+def ortDistance(coordinate1, coordinate2):
+	return abs(coordinate1[0] - coordinate2[0]) + abs(coordinate1[1] - coordinate2[1])
 
 def rotateTowards(position, destination):
 	global listOfInstruction
@@ -129,7 +128,7 @@ def rotateTowards(position, destination):
 				listOfInstruction.append("right")
 				localRotation += 90
 
-	elif position[1]-destination[1] < 0: #destination is on the bottom
+	elif position[1]-destination[1] > 0: #destination is on the bottom
 		while localRotation - 180 != 0:
 				if localRotation == 270:
 					listOfInstruction.append("left")
