@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+""" 
+Version 1 - Implement finding the path to follow and return a list of action from the inputted coordinates
+"""
+
 import math
 from collections import deque
 

@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-"""
-This test is used to collect data from the color sensor.
-It must be run on the robot.
+""" 
+Version 1 - Determine the color from the reading of the color sensor by calculating the distance
 """
 
 from utils.brick import EV3ColorSensor, wait_ready_sensors, TouchSensor, reset_brick
@@ -11,7 +10,6 @@ import math
 
 COLOR_SENSOR = EV3ColorSensor(4)
 GREEN = [32,97,32, "Green"]
-#GREEN = [18, 70, 25, "Green" ]
 RED = [164,25,18, "Red"]
 BLACK_OR_BLUE = [40, 30, 18, "Black"]
 TABLE = [188,91,46, "Table"]

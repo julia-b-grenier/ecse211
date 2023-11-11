@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
+"""
+Version 1 - Implement asking the input and getting the path finding result
+Version 2 - Implement the code that handles the list of actions
+"""
+
 from utils.brick import Motor, TouchSensor, EV3ColorSensor, wait_ready_sensors
-import path_finding, mouvement_mechanism, dropping_mechanism
+import path_finding, movement_mechanism, dropping_mechanism, color_sensor_validation
 import time
 
 #=-=-=-=-= Initialization of variables, motors and sensor =-=-=-=-=#
@@ -17,8 +22,8 @@ EMERGENCY_TOUCH = TouchSensor(1)
 RIGHT_COLOR_SENSOR = EV3ColorSensor(2)
 RIGHT_COLOR_SENSOR = EV3ColorSensor(3)
 
+movement_mechanism.initialize_motors(LEFT_MOVEMENT_MOTOR, RIGHT_MOVEMENT_MOTOR)
 wait_ready_sensors()
-
 #=-=-=-=-=-=-=-=-=-=- Get coordinates of fire -=-=-=-=-=-=-=-=-=-=#
 def inputCoordinate():
     global color_arrays
@@ -62,12 +67,28 @@ coordinates_fire = inputCoordinate()
 print(coordinates_fire)
 instructionList = path_finding.getInstructionList(coordinates_fire)
 print(instructionList)
+
 for instruction in instructionList:
     if instruction == "FWD":
+        movement_mechanism.move_dist_fwd(.3)
+
     elif instruction == "left":
+        movement_mechanism.rotate_left(90)
+
     elif instruction == "right":
+        movement_mechanism.rotate_right(90)
+
     elif instruction == "creepFWD":
+        movement_mechanism.move_dist_fwd(.1)
+        movement_mechanism.move_dist_fwd(.1)
+
     elif instruction == "creepBWD":
+        movement_mechanism.move_dist_bwd(.1)
+        movement_mechanism.move_dist_bwd(.1)
+
     elif instruction in color_array:
+        print("push cube")
+
     else:
         print("INSTRUCTION NOT AN INSTRUCTION?")  
+

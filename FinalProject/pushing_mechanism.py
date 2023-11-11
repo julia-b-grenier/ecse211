@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+""" 
+Version 1 - Implement the mechanism that push the color cube
+"""
+
 from utils.brick import Motor, reset_brick
 import time
 
