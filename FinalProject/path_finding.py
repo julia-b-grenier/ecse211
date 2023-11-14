@@ -4,7 +4,6 @@
 Version 1 - Implement finding the path to follow and return a list of action from the inputted coordinates
 """
 
-import math
 from collections import deque
 
 #=-=-=-=-=-=- Initialization of variables -=-=-=-=-=-=#
@@ -24,20 +23,34 @@ def getInstructionList(coordinatesArray):
 
 	#fireLocation is used to keep track which fire we took care of
 	#coordinatesArray is used to keep a list of all the fires
+	initialization()
 	fireLocations = coordinatesArray[:]
 	fireMatrix = constructMatrix(coordinatesArray)
 	
 	while len(fireLocations) != 0:
 		closestFire = getClosestFire(fireLocations, localPosition)
-		localPosition = goToFire(coordinatesArray, localPosition, closestFire)
+		localPosition = goToFire(localPosition, closestFire)
 		fireLocations.remove(closestFire) #keeping track which fires have been taken care of
 
-	goToOrigin(coordinatesArray, localPosition)
+	goToOrigin(localPosition)
 
 	return listOfInstruction
 #=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 
 #=-=-=-=-=-=-=-=-= Helper functions =-=-=-=-=-=-=-=-=#
+def initialization():
+	global listOfInstruction
+	global fireLocations
+	global localRotation
+	global localPosition
+	global fireMatrix
+
+	listOfInstruction = []
+	localPosition = [0,0] #robots starts at 0,0
+	localRotation = 0 #robot start at 0 looking toward 0,3
+	fireLocations = []
+	fireMatrix = []
+
 def constructMatrix(coordinatesArray):
 	matrix = [
 		[0, 0, 0, 0],
@@ -61,7 +74,7 @@ def getClosestFire(coordinatesArray, position):
 
 def is_valid_move(x, y, visited):
 	global fireMatrix
-	return 0 <= x < 4 and 0 <= y < 4 and fireMatrix[x][y] == 0 and not visited[x][y]
+	return 0 <= x < 4 and 0 <= y < 4 and fireMatrix[x][y] == 0 and not visited[y][x]
 
 def bfs(grid, start_x, start_y, target_x, target_y):
 	visited = [[False for _ in range(4)] for _ in range(4)]
@@ -82,11 +95,14 @@ def bfs(grid, start_x, start_y, target_x, target_y):
 
 	return []  # Target is not reachable
 
-def goToFire(coordinatesArray, position, fireCoordinate):
+def goToFire(position, fireCoordinate):
 	global listOfInstruction
 	global fireMatrix
 
 	path = bfs(fireMatrix, localPosition[0], localPosition[1], fireCoordinate[0], fireCoordinate[1])
+	if path == []:
+		print("A fire is not reachable")
+		return [0,0]
 	path.pop(0)
 
 	for coordinate in path:
@@ -102,7 +118,7 @@ def goToFire(coordinatesArray, position, fireCoordinate):
 	listOfInstruction.append("creepBWD")
 	return position
 
-def goToOrigin(coordinatesArray, position):
+def goToOrigin(position):
 	path = bfs(fireMatrix, localPosition[0], localPosition[1], 0, 0)
 	path.append((0,0))
 
