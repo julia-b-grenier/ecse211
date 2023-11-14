@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """ 
-Version 1 - Implement finding the path to follow and return a list of action from the inputted coordinates
+Version 1 - Implement finding the path to follow and return a list of action from the inputed coordinates
 """
 
 import math
@@ -13,7 +13,6 @@ localPosition = [0,0] #robots starts at 0,0
 localRotation = 0 #robot start at 0 looking toward 0,3
 fireLocations = []
 fireMatrix = []
-
 
 #=-=-=-=-=-=- Main path finding function -=-=-=-=-=-=#
 def getInstructionList(coordinatesArray):
