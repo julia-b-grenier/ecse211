@@ -10,44 +10,49 @@ import time
 
 color_array = ["purple", "blue", "green", "yellow", "orange", "red"]
 
-def initialize_motors():
-    MOTOR = Motor('A')
-    MOTOR_PUSH = Motor('D')
-    MOTOR.reset_position()
-    MOTOR_PUSH.reset_position()
+#=-=-=-=-=-=- Initialization of variables -=-=-=-=-=-=#
+def initialize_motors(motor, motor_push):
+    motor.reset_position()
+    motor_push.reset_position()
     
-    print("started")
+    motor.set_limits(0,90);
+    motor.set_position(0)
     
-    MOTOR.set_limits(0,90);
-    MOTOR.set_position(0)
+    motor_push.set_limits(100,180)
+    motor_push.set_position(0)
     
-    MOTOR_PUSH.set_limits(100,180)
-    MOTOR_PUSH.set_position(0)
+    print("Movement motors are initialized")
 
+#=-=-=-=-= Cube dispenser functions =-=-=-=-=#
 def pushColor(selected_color, motor, motor_push):
     global color_array
     
     if(selected_color in color_array):
         position = color_array.index(selected_color) * 180
         motor.set_position(position)
-        time.sleep(5)
+        time.sleep(1)
+        motor.wait_is_stopped(1)
         pushCube(motor_push)
     else:
         print("color not in the array")
         
 def pushCube(motor_push):
-    motor_push.set_position_relative(360)
-    time.sleep(2)
+    motor_push.set_position_relative(-360)
+    time.sleep(1)
+    motor_push.wait_is_stopped(2)
 
 #Used for debugging purposes
 if __name__=='__main__':
+    motor = Motor('A')
+    motor_push = Motor('D')
     
-    initialize_motors()
+    initialize_motors(motor, motor_push)
     
     while(True):
-        if(not MOTOR.is_moving()):
+        if(not motor.is_moving()):
             selected_color = input("select color:")
-            pushColor(selected_color)
+            pushColor(selected_color,motor,motor_push)
     
     reset_brick()
+    
     exit()

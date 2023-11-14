@@ -5,8 +5,8 @@ Version 1 - Implement asking the input and getting the path finding result
 Version 2 - Implement the code that handles the list of actions
 """
 
-from utils.brick import Motor, TouchSensor, EV3ColorSensor, wait_ready_sensors
-import path_finding, movement_mechanism, dropping_mechanism, color_sensor_validation
+from utils.brick import Motor, TouchSensor, EV3ColorSensor, wait_ready_sensors, reset_brick
+import path_finding, movement_mechanism, dropping_mechanism
 import time
 
 #=-=-=-=-= Initialization of variables, motors and sensor =-=-=-=-=#
@@ -20,10 +20,13 @@ KICK_MOTOR = Motor('D')
 #Sensors
 EMERGENCY_TOUCH = TouchSensor(1)
 RIGHT_COLOR_SENSOR = EV3ColorSensor(2)
-RIGHT_COLOR_SENSOR = EV3ColorSensor(3)
+LEFT_COLOR_SENSOR = EV3ColorSensor(3)
 
-movement_mechanism.initialize_motors(LEFT_MOVEMENT_MOTOR, RIGHT_MOVEMENT_MOTOR)
+reset_brick()
+dropping_mechanism.initialize_motors(RACK_MOTOR, KICK_MOTOR)
+movement_mechanism.initialize_motors(LEFT_MOVEMENT_MOTOR, RIGHT_MOVEMENT_MOTOR, RIGHT_COLOR_SENSOR, LEFT_COLOR_SENSOR)
 wait_ready_sensors()
+
 #=-=-=-=-=-=-=-=-=-=- Get coordinates of fire -=-=-=-=-=-=-=-=-=-=#
 def inputCoordinate():
     global color_arrays
@@ -64,31 +67,40 @@ def inputCoordinate():
 #=-=-=-=-=-=-=-=-=-=-=-=-=-= Main =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 
 coordinates_fire = inputCoordinate()
+start = time.time()
 print(coordinates_fire)
 instructionList = path_finding.getInstructionList(coordinates_fire)
 print(instructionList)
 
 for instruction in instructionList:
     if instruction == "FWD":
+        print("Action: FWD")
         movement_mechanism.move_dist_fwd(.3)
 
     elif instruction == "left":
+        print("Action: left")
         movement_mechanism.rotate_left(90)
 
     elif instruction == "right":
+        print("Action: right")
         movement_mechanism.rotate_right(90)
 
     elif instruction == "creepFWD":
-        movement_mechanism.move_dist_fwd(.1)
-        movement_mechanism.move_dist_fwd(.1)
+        print("Action: creepFWD")
+        movement_mechanism.move_dist_fwd(.22)
 
     elif instruction == "creepBWD":
-        movement_mechanism.move_dist_bwd(.1)
-        movement_mechanism.move_dist_bwd(.1)
+        print("Action: creepBWD")
+        movement_mechanism.move_dist_bwd(.22)
 
     elif instruction in color_array:
-        print("push cube")
+        dropping_mechanism.pushColor(instruction,RACK_MOTOR,KICK_MOTOR)
 
     else:
-        print("INSTRUCTION NOT AN INSTRUCTION?")  
+        print("INSTRUCTION NOT AN INSTRUCTION?")
 
+end = time.time()
+
+reset_brick()
+
+print(end - start)
