@@ -11,20 +11,25 @@ import math
 
 GREEN = [32,97,32, "green"]
 RED = [164,25,18, "red"]
-BLACK = [40, 30, 18, "black"]
-BLUE = [50,50,60, "blue"] # put real blue value
+#BLACK = [40, 30, 18, "black"]
+BLACK = [56, 48, 18, "black"]
+BLUE = [15,39,32, "blue"] # put real blue value
 TABLE = [188,91,46, "table"]
 COLORS = [GREEN, RED, BLACK, BLUE]
 
 
-def collect_color_sensor_data(color_sensor, result_array):
+def collect_color_sensor_data(color_sensor):
     try:
+        wait_ready_sensors(False)
         cs_data = color_sensor.get_rgb()
         
         if cs_data is not None: # If None is given, then data collection failed that time
+            #print(cs_data)
             return color_according_to_dist(cs_data)
-                
-        sleep(0.5)
+        else:
+            return ""
+        
+        sleep(.5)
     except BaseException:  # capture all exceptions including KeyboardInterrupt (Ctrl-C)
         exit()
 

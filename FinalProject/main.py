@@ -18,14 +18,12 @@ LEFT_MOVEMENT_MOTOR = Motor('B')
 RACK_MOTOR = Motor('C')
 KICK_MOTOR = Motor('D')
 #Sensors
-EMERGENCY_TOUCH = TouchSensor(1)
-RIGHT_COLOR_SENSOR = EV3ColorSensor(2)
+RIGHT_COLOR_SENSOR = EV3ColorSensor(4)
 LEFT_COLOR_SENSOR = EV3ColorSensor(3)
 
-reset_brick()
 dropping_mechanism.initialize_motors(RACK_MOTOR, KICK_MOTOR)
 movement_mechanism.initialize_motors(LEFT_MOVEMENT_MOTOR, RIGHT_MOVEMENT_MOTOR, RIGHT_COLOR_SENSOR, LEFT_COLOR_SENSOR)
-wait_ready_sensors()
+wait_ready_sensors(True)
 
 #=-=-=-=-=-=-=-=-=-=- Get coordinates of fire -=-=-=-=-=-=-=-=-=-=#
 def inputCoordinate():
@@ -75,25 +73,26 @@ print(instructionList)
 for instruction in instructionList:
     if instruction == "FWD":
         print("Action: FWD")
-        movement_mechanism.move_dist_fwd(.3)
+        movement_mechanism.move_fwd(.3)
 
     elif instruction == "left":
         print("Action: left")
-        movement_mechanism.rotate_left(90)
+        movement_mechanism.rotate_left(88)
 
     elif instruction == "right":
         print("Action: right")
-        movement_mechanism.rotate_right(90)
+        movement_mechanism.rotate_right(88)
 
     elif instruction == "creepFWD":
         print("Action: creepFWD")
-        movement_mechanism.move_dist_fwd(.22)
+        movement_mechanism.move_fwd(.22)
 
     elif instruction == "creepBWD":
         print("Action: creepBWD")
         movement_mechanism.move_dist_bwd(.22)
 
     elif instruction in color_array:
+        movement_mechanism.wait_for_the_motors_to_be_done()
         dropping_mechanism.pushColor(instruction,RACK_MOTOR,KICK_MOTOR)
 
     else:
@@ -104,3 +103,4 @@ end = time.time()
 reset_brick()
 
 print(end - start)
+    
