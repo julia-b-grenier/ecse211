@@ -11,7 +11,8 @@ import time
 
 #=-=-=-=-= Initialization of variables, motors and sensor =-=-=-=-=#
 #Variables
-color_array = ["purple", "blue", "green", "yellow", "orange", "red"]
+color_types = ["purple", "blue", "green", "yellow", "orange", "red"]
+fire_types = ["C", "A", "F", "B", "E", "D"]
 #Motors
 RIGHT_MOVEMENT_MOTOR = Motor('A')
 LEFT_MOVEMENT_MOTOR = Motor('B')
@@ -27,36 +28,38 @@ wait_ready_sensors(True)
 
 #=-=-=-=-=-=-=-=-=-=- Get coordinates of fire -=-=-=-=-=-=-=-=-=-=#
 def inputCoordinate():
-    global color_arrays
+    global fire_types
     coordArray = [] #The array containing all coordinates to fires
     
     # get the coordinates of the fires of from the user
     print("Input the coordinate of the fire using the following format:")
-    print("xCoordinate,yCoordinate,color")
-    print("Once you are done enter an empty feild \n")
+    print("xCoordinate,yCoordinate,FireType,x2,y2,Fire2,etc...")
     
-    coordinate = input("Enter the coordinate: ")
-    
-    while coordinate != "":
+    while len(coordArray)==0:
+        coordinate = input("Enter the coordinate: ")
+
         try:
             splitCoord = coordinate.split(",")
-            xCoord = int(splitCoord[0])
-            yCoord = int(splitCoord[1])
-            color = splitCoord[2].lower()
-            
-            if xCoord > 3 or xCoord < 0 or yCoord > 3 or yCoord < 0:
-                print("The coordinate given is not between 0,0 or 3,3")
-            
-            elif color not in color_array:
-                print("The color given is not a valid color",color_array)
-            
-            else:
-                coordArray.append([xCoord, yCoord, color])
+            while len(splitCoord)>2:
+                xCoord = int(splitCoord[0])
+                yCoord = int(splitCoord[1])
+                fireType = splitCoord[2]
+                
+                if xCoord > 3 or xCoord < 0 or yCoord > 3 or yCoord < 0:
+                    print("The coordinate given is not between 0,0 or 3,3")
+                
+                elif fireType not in fire_types:
+                    print("The fire given is not a valid fire",fire_types)
+                
+                else:
+                    coordArray.append([xCoord, yCoord, color_types[fire_types.index(fireType)]])
+                    splitCoord.pop(0)
+                    splitCoord.pop(0)
+                    splitCoord.pop(0)
                     
         except:
             print("coordinate were not in the correct format")
         
-        coordinate = input("Enter the coordinate: ")
     
     return coordArray
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
@@ -91,7 +94,7 @@ for instruction in instructionList:
         print("Action: creepBWD")
         movement_mechanism.move_dist_bwd(.22)
 
-    elif instruction in color_array:
+    elif instruction in color_types:
         movement_mechanism.wait_for_the_motors_to_be_done()
         dropping_mechanism.pushColor(instruction,RACK_MOTOR,KICK_MOTOR)
 

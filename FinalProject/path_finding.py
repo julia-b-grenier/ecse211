@@ -18,13 +18,10 @@ def getInstructionList(coordinatesArray):
 	global listOfInstruction
 	global fireLocations
 	global localPosition
-	global fireMatrix
 
 	#fireLocation is used to keep track which fire we took care of
 	#coordinatesArray is used to keep a list of all the fires
-	initialization()
-	fireLocations = coordinatesArray[:]
-	fireMatrix = constructMatrix(coordinatesArray)
+	initialization(coordinatesArray)
 	
 	while len(fireLocations) != 0:
 		closestFire = getClosestFire(fireLocations, localPosition)
@@ -37,7 +34,7 @@ def getInstructionList(coordinatesArray):
 #=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 
 #=-=-=-=-=-=-=-=-= Helper functions =-=-=-=-=-=-=-=-=#
-def initialization():
+def initialization(coordinatesArray):
 	global listOfInstruction
 	global fireLocations
 	global localRotation
@@ -47,8 +44,8 @@ def initialization():
 	listOfInstruction = []
 	localPosition = [0,0] #robots starts at 0,0
 	localRotation = 0 #robot start at 0 looking toward 0,3
-	fireLocations = []
-	fireMatrix = []
+	fireLocations = coordinatesArray[:]
+	fireMatrix = constructMatrix(coordinatesArray)
 
 def constructMatrix(coordinatesArray):
 	matrix = [

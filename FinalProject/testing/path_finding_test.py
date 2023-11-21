@@ -1,6 +1,6 @@
 #=-=-=-=-=-=-=-=-=- Importing -=-=-=-=-=-=-=-=-=#
 import sys
-sys.path.insert(1, '/Users/Emilien/Desktop/ecse211/ecse211/FinalProject')
+sys.path.insert(1, '../')
 import path_finding
 #=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=#
 
@@ -18,12 +18,20 @@ for i in range(1, len(total_array)-2):
 		for k in range(j+1, len(total_array)):
 			all_selections.append([total_array[i],total_array[j],total_array[k]])
 
+total_len = 0
+total_num = 0
+worst_path_and_cooridates = [[],[]]
 for coordinates_fire in all_selections:
 	print(coordinates_fire)
-	print(path_finding.getInstructionList(coordinates_fire))
+	path = path_finding.getInstructionList(coordinates_fire)
+	if path:
+		total_num += 1
+		total_len += len(path)
+		if len(worst_path_and_cooridates[1]) < len(path):
+			worst_path_and_cooridates = [coordinates_fire, path]
 
-print(total_array)
-coordinates_fire = [[1,1,"red"], [2,2,"red"], [3,3,"red"]]
-instructionList = path_finding.getInstructionList(coordinates_fire)
-print(instructionList)
+print("number of fires:", len(all_selections))
+print("number of possible fires:", total_num)
+print("average number of instructions:", total_len/total_num)
+print("worst_path_and_cooridates:", worst_path_and_cooridates)
 
